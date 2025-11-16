@@ -1,8 +1,8 @@
 {
 	"name": "dmg-read-more",
-	"version": "0.1.0",
-	"description": "Example block scaffolded with Create Block tool.",
-	"author": "The WordPress Contributors",
+	"version": "1.0.0",
+	"description": "A block for adding a Read More hyperlink to a selected post.",
+	"author": "Sam Thomas",
 	"license": "GPL-2.0-or-later",
 	"main": "build/index.js",
 	"scripts": {
