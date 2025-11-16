@@ -14,7 +14,7 @@ A block for adding a Read More hyperlink to a selected post, and a WP CLI comman
 
 This section describes how to install the plugin and get it working.
 
-1. Upload the plugin files to the `/wp-content/plugins/dmg-read-more` directory, or install the plugin via Upload Plugin, at the top of the WordPress plugins screen.
+1. Upload the plugin files to the `/wp-content/plugins` directory, or install the plugin via Upload Plugin, at the top of the WordPress plugins screen.
 2. Activate the plugin through the 'Plugins' screen in WordPress
 
 == Screenshots ==
