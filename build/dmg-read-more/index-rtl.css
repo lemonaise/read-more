@@ -1,1 +1,24 @@
-.wp-block-create-block-dmg-read-more{border:1px dotted red}
+/*!******************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/dmg-read-more/editor.scss ***!
+  \******************************************************************************************************************************************************************************************************************************************************/
+button.read-more-button.components-button {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 4px 0;
+  background-color: #007cba;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+button.read-more-button.components-button:hover {
+  opacity: 0.8;
+  color: #fff;
+}
+button.read-more-button.components-button.post-selected {
+  background-color: #e0f7fa;
+  border: 1px solid #00bcd4;
+  color: #007cba;
+}

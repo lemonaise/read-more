@@ -1,19 +1,16 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "create-block/dmg-read-more",
-	"version": "0.1.0",
-	"title": "Dmg Read More",
-	"category": "widgets",
-	"icon": "smiley",
-	"description": "Example block scaffolded with Create Block tool.",
+	"name": "dmg/read-more-block",
+	"version": "1.0.0",
+	"title": "DMG Read More Block",
+	"category": "resources",
+	"icon": "admin-links",
+	"description": "A block for adding a Read More hyperlink to a selected post.",
 	"example": {},
 	"supports": {
 		"html": false
 	},
-	"textdomain": "dmg-read-more",
+	"textdomain": "read-more-block",
 	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"viewScript": "file:./view.js"
+	"editorStyle": "file:./index.css"
 }
