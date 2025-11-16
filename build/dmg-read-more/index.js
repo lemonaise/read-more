@@ -192,11 +192,11 @@ function Save({
     // Show the selected post hyperlink
     (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
       className: "dmg-read-more",
-      children: attributes.linkUrl && attributes.linkText ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("a", {
+      children: attributes.linkUrl && attributes.linkText ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("a", {
         href: attributes.linkUrl,
         target: "_blank",
         rel: "noopener noreferrer",
-        children: attributes.linkText
+        children: ["Read More: ", attributes.linkText]
       }) : "No post selected."
     })
   );
