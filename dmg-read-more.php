@@ -65,8 +65,6 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
          *     wp dmg-read-more search --date-after=2024-01-01 --date-before=2025-01-01
          */
         public function search( $args, $assoc_args ) {
-            global $wpdb;
-
             $date_before = $assoc_args['date-before'] ?? '';
             $date_after = $assoc_args['date-after'] ?? '';
 
@@ -75,19 +73,31 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
                 $date_after = date( 'Y-m-d', strtotime( '-30 days' ) );
             }
 
-						// Build the SQL to search for posts (any post type) that contain the Read More block
-            $where = $wpdb->prepare( "post_content LIKE %s AND post_status = 'publish'", '%<!-- wp:dmg/read-more-block%' );
+						// Build the arguments for the query
+            $args = [
+                'post_type'      => 'any',
+                'post_status'    => 'publish',
+                's'              => '<!-- wp:dmg/read-more-block',
+                'posts_per_page' => -1,
+            ];
 
 						// Add the date filters if provided
-            if ( $date_before ) {
-                $where .= $wpdb->prepare( " AND post_date < %s", $date_before . ' 00:00:00' );
-            }
             if ( $date_after ) {
-                $where .= $wpdb->prepare( " AND post_date > %s", $date_after . ' 23:59:59' );
+                $args['date_query'][] = [
+                    'after'     => $date_after,
+                    'inclusive' => true,
+                ];
+            }
+            if ( $date_before ) {
+                $args['date_query'][] = [
+                    'before'    => $date_before,
+                    'inclusive' => true,
+                ];
             }
 
-						// Execute the SQL query
-            $posts = $wpdb->get_results( "SELECT ID, post_title, post_date FROM {$wpdb->posts} WHERE {$where}" );
+						// Execute the WP query
+						$query = new WP_Query( $args );
+            $posts = $query->posts;
 
 						if ( empty( $posts ) ) {
                 WP_CLI::warning( 'No matching posts found.' );
