@@ -42,3 +42,67 @@ function create_block_dmg_read_more_block_init() {
 	}
 }
 add_action( 'init', 'create_block_dmg_read_more_block_init' );
+
+// Add a WP-CLI command to search for instances of the Read More block
+if ( defined( 'WP_CLI' ) && WP_CLI ) {
+    class Dmg_Read_More_CLI_Command {
+        /**
+         * Search for posts containing the dmg-read-more block.
+         *
+         * ## OPTIONS
+         *
+         * [--date-before=<date>]
+         * : Only show posts published before this date (YYYY-MM-DD).
+         *
+         * [--date-after=<date>]
+         * : Only show posts published after this date (YYYY-MM-DD).
+         *
+         * ## EXAMPLES
+         *
+         *     wp dmg-read-more search
+         *     wp dmg-read-more search --date-before=2025-01-01
+         *     wp dmg-read-more search --date-after=2024-01-01
+         *     wp dmg-read-more search --date-after=2024-01-01 --date-before=2025-01-01
+         */
+        public function search( $args, $assoc_args ) {
+            global $wpdb;
+
+            $date_before = $assoc_args['date-before'] ?? '';
+            $date_after = $assoc_args['date-after'] ?? '';
+
+            // Set default date range to last 30 days if no filters provided
+            if ( empty( $date_before ) && empty( $date_after ) ) {
+                $date_after = date( 'Y-m-d', strtotime( '-30 days' ) );
+            }
+
+						// Build the SQL to search for posts (any post type) that contain the Read More block
+            $where = $wpdb->prepare( "post_content LIKE %s AND post_status = 'publish'", '%<!-- wp:dmg/read-more-block%' );
+
+						// Add the date filters if provided
+            if ( $date_before ) {
+                $where .= $wpdb->prepare( " AND post_date < %s", $date_before . ' 00:00:00' );
+            }
+            if ( $date_after ) {
+                $where .= $wpdb->prepare( " AND post_date > %s", $date_after . ' 23:59:59' );
+            }
+
+						// Execute the SQL query
+            $posts = $wpdb->get_results( "SELECT ID, post_title, post_date FROM {$wpdb->posts} WHERE {$where}" );
+
+						// Get the results
+						$rows = array_map( function( $post ) {
+								return [
+										'ID' => $post->ID,
+										'Title' => $post->post_title,
+										'Date' => $post->post_date,
+										'URL' => get_permalink( $post->ID )
+								];
+						}, $posts );
+
+						// Format the results as a table and output to screen
+						WP_CLI\Utils\format_items( 'table', $rows, [ 'ID', 'Title', 'Date', 'URL' ] );
+        }
+    }
+
+    WP_CLI::add_command( 'dmg-read-more', 'Dmg_Read_More_CLI_Command' );
+}
