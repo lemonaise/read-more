@@ -89,6 +89,11 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 						// Execute the SQL query
             $posts = $wpdb->get_results( "SELECT ID, post_title, post_date FROM {$wpdb->posts} WHERE {$where}" );
 
+						if ( empty( $posts ) ) {
+                WP_CLI::warning( 'No matching posts found.' );
+                return;
+            }
+
 						// Get the results
 						$rows = array_map( function( $post ) {
 								return [
